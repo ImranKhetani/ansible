@@ -1,0 +1,21 @@
+# Doc Ref: (https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-fedora-or-centos)
+
+sudo yum install epel-release
+
+sudo yum install ansible
+
+# Once ansible is installed, make sure there's connectivity between all the VMs.
+
+# Create a file on controller machine
+
+cat > inventory.txt
+
+# Edit and save the file and set up your hosts
+
+target1 ansible_host=192.168.2.5 ansible_ssh_pass=P@55w.rd1234
+target2 ansible_host=192.168.2.6 ansible_ssh_pass=P@55w.rd1234
+
+# Try pinging the hosts
+
+ansible target1 -m ping -i inventory.txt
+ansible target2 -m ping -i inventory.txt

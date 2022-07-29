@@ -1,0 +1,71 @@
+# Create two VMs in Azure or whatever is you preferred cloud platform or you may also use the virtualbox environment.
+
+# The below steps are for the azure platform.
+
+# Login to your Azure account.
+
+az login --use-device-code
+
+# Set the default subscription
+
+az account set --subscription "<Subscription-Name>"
+
+# Declare some variables
+
+$rgName="ansible-rg01"
+$location="centralindia"
+$vnet01="centralindia-vnet"
+$vnet01_address_prefixes="192.168.0.0/16"
+$subnet01="private"
+$subnet01_address_prefixes="192.168.2.0/24"
+
+# Create the resource-group
+
+az group create --name $rgName --location $location
+
+# Create a VNET
+
+az network vnet create --name $vnet01 --resource-group $rgName --location $location --address-prefixes $vnet01_address_prefixes
+
+# Create a Subnet
+
+az network vnet subnet create --address-prefixes $subnet01_address_prefixes --name $subnet01 --resource-group $rgName --vnet-name $vnet01
+
+# Create Network Security Group
+
+az network nsg create --resource-group $rgName --name NSG01 --location $location
+
+# NSG Rule Create
+
+az network nsg rule create `
+    --resource-group $rgName --nsg-name NSG01 `
+    --name allow-ssh `
+    --priority 100 `
+    --source-address-prefixes '*' `
+    --source-port-ranges '*' `
+    --destination-address-prefixes '*' `
+    --destination-port-ranges 22 `
+    --access allow `
+    --protocol Tcp `
+    --description "Allow SSH"
+
+# Create VMs
+
+az vm create --name ansible-0 `
+             --resource-group $rgname `
+             --location $location `
+             --admin-username student `
+             --image centos `
+             --public-ip-sku Standard `
+             --nsg NSG01 `
+             --vnet-name $vnet01 `
+             --subnet $subnet01 `
+             --size Standard_B2s `
+             --count 2 `
+             --generate-ssh-keys
+
+# Connect to the VM using SSH
+
+ssh <username>@<Public_IP_of_AzureVM>
+
+

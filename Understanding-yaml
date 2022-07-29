@@ -1,0 +1,43 @@
+# YAML is a key-value pair representation of data.
+
+Fruit: Apple
+Vegetable: Carrot
+Liquid: Water
+Meat: Chicken
+
+# How do we represents array/lists in YAML
+
+Fruits:
+- Orange
+- Apple
+- Banana
+
+Vegetables:
+- Carrot
+- Tomato
+- Onions
+
+# How do we represents dictionary/map in YAML
+
+Banana:
+    Calories: 105
+    Fat: 0.4 g
+    Carbs: 27 g
+
+Grapes:
+    Calories: 62
+    Fat: 0.3 g
+    Carbs: 16 g
+
+# Key Value/Dictionary/Lists
+
+Fruits:
+-   Banana:
+        Calories: 105
+        Fat: 0.4 g
+        Carbs: 27 g
+
+-   Grapes:
+        Calories: 62
+        Fat: 0.3 g
+        Carbs: 16 g
